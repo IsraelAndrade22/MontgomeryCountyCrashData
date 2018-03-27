@@ -8,7 +8,90 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## R Markdown
-```
-dat = read.csv("https://raw.githubusercontent.com/grbruns/cst383/master/campaign-ca-2016-sample.csv")
+```{r}
+dat = read.csv("https://raw.githubusercontent.com/IsraelAndrade22/MontgomeryCountyCrashData/master/Crash_Reporting_-_Drivers_Data.csv")
+str(dat)
+sum(is.na(dat))
+names(dat)
+length(dat[dat == "N/A"])
+par(mar=c(2,10,2,2))
+barplot(table(dat$Weather), horiz=T, las=1, col="firebrick")
+barplot(table(dat$Collision.Type), horiz = T, las=1, col="firebrick")
 
+barplot(table(dat$Driver.Distracted.By), horiz = T, las=1, col="firebrick")
+```
+```{r}
+#Plot the Injurey severity based on alcohol abuse
+par(mfrow=c(2,1))
+substancePresent = dat[dat$Driver.Substance.Abuse == "ALCOHOL PRESENT" | dat$Driver.Substance.Abuse == "ILLEGAL DRUG PRESENT", ]
+substanceNotPresent = dat[dat$Driver.Substance.Abuse != "ALCOHOL PRESENT" & dat$Driver.Substance.Abuse == "ILLEGAL DRUG PRESENT", ]
+presentAbuse = table(substancePresent$Injury.Severity)
+c(presentAbuse["FATAL INJURY"], presentAbuse["POSSIBLE INJURY"], presentAbuse["SUSPECTED SERIOUS INJURY"])
+noPresentAbuse = table(substanceNotPresent$Injury.Severity)
+
+
+barplot(c(presentAbuse["FATAL INJURY"], presentAbuse["POSSIBLE INJURY"], presentAbuse["SUSPECTED SERIOUS INJURY"]), col="firebrick", main = "Injury Severity on Substance Present",
+    xlab = "Amounts", horiz = T)
+barplot(c(noPresentAbuse["FATAL INJURY"], noPresentAbuse["POSSIBLE INJURY"], noPresentAbuse["SUSPECTED SERIOUS INJURY"]), col="firebrick", main = "Injury Severity on Substance Not Present",
+    xlab = "Amounts", horiz = T)
+```
+##Intro: explain what you will do in a sentence or two
+``` {r}
+#Vehicle.Body.Type, Road.Name, Collision.Type, Vehicle.Movement, Vehicle.Damage.Extent, 
+par(mfrow=c(1,3))
+pickupTruck = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "PICKUP TRUCK"])
+sportsVehicles = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "(SPORT) UTILITY VEHICLE"])
+passengerCar = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "PASSENGER CAR"])
+barplot(c(sportsVehicles["DESTROYED"], sportsVehicles["DISABLING"], sportsVehicles["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on sports cars",
+    xlab = "Amounts", horiz = T,)
+barplot(c(pickupTruck["DESTROYED"], pickupTruck["DISABLING"], pickupTruck["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on pick up trucks",
+    xlab = "Amounts", horiz = T,)
+barplot(c(passengerCar["DESTROYED"], passengerCar["DISABLING"], passengerCar["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on passenger cars",
+    xlab = "Amounts", horiz = T,)
+```
+##Data: Explain in a few sentence where the data comes from, what it is about, etc. Initial data exploration
+``` {r}
+par(mfrow=c(1,3))
+pickupTruck = dat[dat$Vehicle.Body.Type == "PICKUP TRUCK",]
+pickupTruckDestroyedAvg = mean(pickupTruck$Vehicle.Damage.Extent == "DESTROYED")
+pickupTruckDisablingAvg = mean(pickupTruck$Vehicle.Damage.Extent == "DISABLING")
+pickupTruckFunctionalAvg = mean(pickupTruck$Vehicle.Damage.Extent == "FUNCTIONAL")
+
+sportsVehicles = dat[dat$Vehicle.Body.Type == "(SPORT) UTILITY VEHICLE",]
+sportsVehiclesDestroyedAvg = mean(sportsVehicles$Vehicle.Damage.Extent == "DESTROYED")
+sportsVehiclesDisablingAvg = mean(sportsVehicles$Vehicle.Damage.Extent == "DISABLING")
+sportsVehiclesFunctionalAvg = mean(sportsVehicles$Vehicle.Damage.Extent == "FUNCTIONAL")
+
+
+passengerCar = dat[dat$Vehicle.Body.Type == "PASSENGER CAR",]
+passengerCarDestroyedAvg = mean(passengerCar$Vehicle.Damage.Extent == "DESTROYED")
+passengerCarDisablingAvg = mean(passengerCar$Vehicle.Damage.Extent == "DISABLING")
+passengerCarFunctionalAvg = mean(passengerCar$Vehicle.Damage.Extent == "FUNCTIONAL")
+
+avgDestroyed = c(pickupTruckDestroyedAvg, sportsVehiclesDestroyedAvg, passengerCarDestroyedAvg)
+names(avgDestroyed) = c("pickup truck", "sport vehicle", "passenger vehicle")
+
+avgDisabling = c(pickupTruckDisablingAvg, sportsVehiclesDisablingAvg, passengerCarDisablingAvg)
+names(avgDisabling) = c("pickup truck", "sport vehicle", "passenger vehicle")
+
+avgFunctional = c(pickupTruckFunctionalAvg, sportsVehiclesFunctionalAvg, passengerCarFunctionalAvg)
+names(avgFunctional) = c("pickup truck", "sport vehicle", "passenger vehicle")
+
+
+barplot(avgDestroyed, col="firebrick", main = "Vehicle Destroyed Average",
+    xlab = "Average")
+barplot(avgDisabling, col="yellow", main = "Vehicle Disabled Average",
+    xlab = "Average")
+barplot(avgFunctional, col="green", main = "Vehicle Functional Average",
+    xlab = "Average")
+```
+
+##Data cleaning and preprocessing
+``` {r}
+```
+#Data exploration and visualization
+``` {r}
+```
+#Conclusions.  One paragraph about what you learned, issues you faced, etc.
+``` {r}
 ```
