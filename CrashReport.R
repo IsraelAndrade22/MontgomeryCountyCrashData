@@ -10,7 +10,7 @@ data = read.csv("https://raw.githubusercontent.com/IsraelAndrade22/MontgomeryCou
 
 par(mar=c(4.1,8.1,2.1,2.1))
 plot(data$Weather, horiz = TRUE, las = 2)
-unknown = data[data$Weather == 'UNKNOWN',]
+unknown_weather = data[data$Weather == 'UNKNOWN',]
 bad = data[data$Weather == 'N/A',]
 
 countbadula = function(x){

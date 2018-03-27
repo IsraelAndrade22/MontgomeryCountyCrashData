@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Crash Report"
 output: html_document
 ---
 
@@ -16,12 +16,13 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r cars}
 summary(cars)
 ```
+dat = read.csv("https://raw.githubusercontent.com/grbruns/cst383/master/campaign-ca-2016-sample.csv")
 
 ## Including Plots
 
 You can also embed plots, for example:
 
-```{r pressure, echo=TRUE}
+```{r pressure, echo=FALSE}
 plot(pressure)
 ```
 
