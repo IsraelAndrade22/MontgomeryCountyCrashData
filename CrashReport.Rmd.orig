@@ -114,20 +114,37 @@ barplot(topCollisons, col = "firebrick",las=2)
 
 ###Plot the most common crashed on certain roads
 ``` {r}
+<<<<<<< HEAD
 #are some kinds of crashes more common on certain kinds of roads
+=======
+>>>>>>> add71b428846b3a1ff3fc3779c1412f4f31070f9
 #Road.Name, Collision.Type, 
 #Top three roads with number of crashes GEORGIA AVE NEW HAMPSHIRE AVE      FREDERICK RD
 
 georgiaAve = dat[dat$Road.Name == "GEORGIA AVE",]
 newHampshireAve = dat[dat$Road.Name == "NEW HAMPSHIRE AVE",]
 frederickRoad = dat[dat$Road.Name == "FREDERICK RD",]
+<<<<<<< HEAD
 head(sort(table(georgiaAve$Collision.Type), decreasing = T), 3)
 head(sort(table(newHampshireAve$Collision.Type), decreasing = T), 3)
+
 stash = data.frame(table(georgiaAve$Collision.Type),table(newHampshireAve$Collision.Type))[c(1,2,4)]
 names(stash) = stash[1]
-colnames(stash) = c("names","Georgia", "NewHampsire")
-plot(stash$NewHampsire)
-lines(stash$Georgia, type = "p", col = "RED")
+colnames(stash) = c("Georgia", "NewHampsire")
+
+
+counts <- table(mtcars$vs, mtcars$gear)
+barplot(counts, main="Car Distribution by Gears and VS",
+  xlab="Number of Gears", col=c("darkblue","red"),
+ 	legend = rownames(counts), beside=TRUE)
+=======
+rockvillePike = dat[dat$Road.Name == "ROCKVILLE PIKE",]
+
+topfederickRoad = head(sort(table(frederickRoad$Collision.Type), decreasing = T), 3)
+topRockvillePike = head(sort(table(rockvillePike$Collision.Type), decreasing = T), 3)
+topUniqueCollision = topfederickRoad[3]
+barplot(topfederickRoad[3])
+>>>>>>> add71b428846b3a1ff3fc3779c1412f4f31070f9
 ```
 
 ##Map of the different collision within Montgomery County
@@ -148,6 +165,8 @@ points(data$Latitude, data$Longitude, col="red", pch=".",
        xlab = "Latitude", ylab = "Longitude")
 
 ```
+
+
 #Conclusions.  One paragraph about what you learned, issues you faced, etc.
 ``` {r}
 ```

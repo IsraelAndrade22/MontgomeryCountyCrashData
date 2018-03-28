@@ -67,11 +67,22 @@ isCar = function(x){
   big = x$Vehicle.Body.Type == "PASSENGER CAR" | x$Vehicle.Body.Type == "VAN" | x$Vehicle.Body.Type == "(SPORT) UTILITY VEHICLE"
   big
 }
-isEmergency(x){
+isEmergency = function(x){
   big = x$Vehicle.Body.Type == "POLICE VEHICLE/NON EMERGENCY" | x$Vehicle.Body.Type == "POLICE VEHICLE/EMERGENCY" | x$Vehicle.Body.Type == "FIRE VEHICLE/NON EMERGENCY" | x$Vehicle.Body.Type == "FIRE VEHICLE/EMERGENCY" | x$Vehicle.Body.Type == "AMBULANCE/NON EMERGENCY" | x$Vehicle.Body.Type == "AMBULANCE/EMERGENCY"
   big
 }
 
+#---------------------
+
+plot(data$Collision.Type[data$Vehicle.Body.Type == "PASSENGER CAR"])
+plot(data$Collision.Type[data$Vehicle.Body.Type == "PICKUP TRUCK"])
+plot(data$Collision.Type[data$Vehicle.Body.Type == "(SPORT) UTILITY VEHICLE"])
+
+percent_reared = function(x){
+  values = data$Collision.Type[data$Vehicle.Body.Type == x
+  mean(,] == "SAME DIR REAR END", na.rm = TRUE)
+}
+sapply(unique(data$Vehicle.Body.Type), percent_reared)
 #conclusions
 
 #Questions from exploration
