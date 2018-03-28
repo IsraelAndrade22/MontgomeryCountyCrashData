@@ -146,8 +146,6 @@ points(data$Latitude, data$Longitude, col="red", pch=".",
        xlab = "Latitude", ylab = "Longitude")
 
 ```
-
-
 #Conclusions.  One paragraph about what you learned, issues you faced, etc.
 ``` {r}
 ```
