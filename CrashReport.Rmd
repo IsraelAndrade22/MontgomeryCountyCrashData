@@ -114,7 +114,7 @@ barplot(topCollisons, col = "firebrick",las=2)
 
 ###Plot the most common crashed on certain roads
 ``` {r}
-are some kinds of crashes more common on certain kinds of roads
+#are some kinds of crashes more common on certain kinds of roads
 #Road.Name, Collision.Type, 
 #Top three roads with number of crashes GEORGIA AVE NEW HAMPSHIRE AVE      FREDERICK RD
 
@@ -123,13 +123,11 @@ newHampshireAve = dat[dat$Road.Name == "NEW HAMPSHIRE AVE",]
 frederickRoad = dat[dat$Road.Name == "FREDERICK RD",]
 head(sort(table(georgiaAve$Collision.Type), decreasing = T), 3)
 head(sort(table(newHampshireAve$Collision.Type), decreasing = T), 3)
-table(georgiaAve$Collision.Type,newHampshireAve$Collision.Type)
-barplot()
-
-counts <- table(mtcars$vs, mtcars$gear)
-barplot(counts, main="Car Distribution by Gears and VS",
-  xlab="Number of Gears", col=c("darkblue","red"),
- 	legend = rownames(counts), beside=TRUE)
+stash = data.frame(table(georgiaAve$Collision.Type),table(newHampshireAve$Collision.Type))[c(1,2,4)]
+names(stash) = stash[1]
+colnames(stash) = c("names","Georgia", "NewHampsire")
+plot(stash$NewHampsire)
+lines(stash$Georgia, type = "p", col = "RED")
 ```
 
 ##Map of the different collision within Montgomery County
