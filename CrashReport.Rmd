@@ -16,6 +16,17 @@ dat = read.csv("https://raw.githubusercontent.com/IsraelAndrade22/MontgomeryCoun
 
 # Results: The weather conditions inlvolved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surpising as we did not expect as meany crashed when the weather condition was clear. 
 par(mar=c(2,10,2,2))
+
+datWeather = dat$Weather
+for(x in 1:length(datWeather)) {
+  if(datWeather[x] != "CLEAR" & datWeather[x] != "RAINING" & datWeather[x] != "CLOUDY") {
+    datWeather[x] = "OTHER"
+  }
+}
+
+newDat = datWeather[datWeather == "RAINING" | datWeather == "CLOUDY" | datWeather == "CLEAR"  | datWeather == "OTHER"]
+barplot(head(sort(table(datWeather), decreasing = T), 4), horiz=T, las=1, col="firebrick")
+
 barplot(table(dat$Weather), horiz=T, las=1, col="firebrick")
 ```
 
@@ -146,6 +157,27 @@ plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pc
 data=dat[dat$Off.Road.Description !="",]
 points(data$Latitude, data$Longitude, col="red", pch=".",
        xlab = "Latitude", ylab = "Longitude")
+
+```
+##Frequency of crashes sorted by day of the week
+``` {r}
+dat$dtime = strptime(as.character(dat$Crash.Date.Time),
+                     "%m/%d/%Y %I:%M:%S %p",
+                     tz="America/New_York")
+
+day_of_the_week = table(dat$dtime$wday)
+names(day_of_the_week) = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+barplot(sort(day_of_the_week), col = "firebrick",las=2)
+```
+
+##Frequency of time of day when crashes occur
+``` {r}
+datTimeofDay = c(0, 0, 0)
+names(datTimeofDay) = c("Night (8PM - 4AM", "Morning (5AM - 11AM", "Afternoon (12PM - 7PM")
+time = dat$dtime$hour
+#for(x in 1:length(time)) {
+#  if(time[x] == "")
+#}
 
 ```
 #Conclusions.  One paragraph about what you learned, issues you faced, etc.
