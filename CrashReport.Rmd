@@ -8,10 +8,34 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ##Project 1
+This project studies common patterns regardiing crashes in Montgomery County regarding weather conditions, car sizes, and damage to the humans and vehicles involved.
 
-###Plot the frequency of the weather conditions of vechicle crashes
+
 ```{r}
 dat = read.csv("https://raw.githubusercontent.com/IsraelAndrade22/MontgomeryCountyCrashData/master/Crash_Reporting_-_Drivers_Data.csv")
+#data cleaning
+dat$Driver.Substance.Abuse[is.na(dat$Driver.Substance.Abuse)] = "UNKNOWN"
+dat$Driver.Substance.Abuse[dat$Driver.Substance.Abuse == "N/A"] = "UNKNOWN"
+dat$Vehicle.Movement[dat$Vehicle.Movement == "N/A"] = "UNKNOWN"
+dat$Vehicle.Body.Type[dat$Vehicle.Body.Type == "N/A"] = "UNKNOWN"
+dat$Vehicle.Damage.Extent[dat$Vehicle.Damage.Extent == "N/A"] = "UNKNOWN"
+dat$Light[dat$Light == "N/A"] = "UNKNOWN"
+dat$Surface.Condition[dat$Surface.Condition == "N/A"] = "UNKNOWN"
+dat$Weather[dat$Weather == "N/A"] = "UNKNOWN"
+dat$Collision.Type[dat$Collision.Type == "N/A"] = "UNKNOWN"
+
+dat$Driver.Substance.Abuse = factor(dat$Driver.Substance.Abuse)
+dat$Vehicle.Movement = facor(dat$Vehicle.Movement)
+dat$Vehicle.Body.Type = facor(dat$Vehicle.Body.Type)
+dat$Vehicle.Damage.Extent = facor(dat$Vehicle.Damage.Extent)
+dat$Light = facor(dat$Light)
+dat$Surface.Condition = factor(dat$Surface.Condition)
+dat$Weather = factor(dat$Weather)
+dat$Collision.Type = factor(dat$Collision.Type)
+```
+For this data, the causes of the empty rows was not always clear, however it was clear that they could not be simply removed. Instead, they were integrated into pre-existing categories based on what was the most similar. In most cases, this meant replacing NA value with "UNKNOWN".The columns in which this could not be done due to either the collumn not having an "UNKNOWN" category, or the "UNKNOWN" category having additional meaning were not used. 
+###Plot the frequency of the weather conditions of vechicle crashes
+```{r}
 # Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happend
 
 # Results: The weather conditions inlvolved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surpising as we did not expect as meany crashed when the weather condition was clear. 
@@ -137,9 +161,10 @@ frederickRoad = dat[dat$Road.Name == "FREDERICK RD",]
 stash = data.frame(table(georgiaAve$Collision.Type),table(newHampshireAve$Collision.Type))[c(1,2,4)]
 names(stash) = as.character(stash[1])
 colnames(stash) = c("names","Georgia", "NewHampsire")
-plot(stash$NewHampsire)
+par(mar = c(15,5,2,2), las=2, cex = 0.7)
+plot(stash$NewHampsire ~ stash$names, xlab = "", ylab = "Number of Crashes", type = "p")
 lines(stash$Georgia, type = "p", col = "RED")
-stash
+legend( "topleft", legend = c("New Hampshire", "Georgia" ), col = c("black", "red"), pch = 1)
 ```
 
 ##Map of the different collision within Montgomery County
