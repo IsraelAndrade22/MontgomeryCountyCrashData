@@ -192,6 +192,7 @@ legend( "topleft", legend = c("New Hampshire", "Georgia", "Fredrick" ), col = c(
 ```
 
 ##Map of the different collision within Montgomery County
+This collision map illistrates the approximate locations of Montgomery County roads. While the map itself is cluttered, the roads themselves can be made out. 
 ``` {r}
 #Intro: For this graph we wanted to illustrate a map with across the Montgomery County with dots on the location of each cross
 #Result: The graph displays roads drawed by points across the graph illustrating the common areas of crashes
@@ -200,6 +201,7 @@ plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pc
 ```
 
 ##Map of off road collisions within Montgomery County
+Here the places where cars were off the road are higlighted. Most crashes that did occur off the roads were still near the road. The data itself explains why this is - the collisions off the road tended to occur in parking lots. This also helps to track where the Montgomery County roads lay, as the road only follows the darker points.
 ``` {r}
 #Intro: For this graph we wanted to illustrate the collisons that have occured off the road to help us determine if these type of collision are common around this county
 #Result: The graph displays many of the off road collisions occuring around the same areas. Most of these collisions also occured near local roads
@@ -210,7 +212,9 @@ points(data$Latitude, data$Longitude, col="red", pch=".",xlab = "Latitude", ylab
 
 ```
 
-##Frequency of crashes sorted by day of the week
+##Frequency of crashes by day of the week
+
+Below is a graph showing when people get into the most crashes. The fewest crashes occured on Sunday, with an aproximate 75% drop from the weekdys. Saturday had a 20% drop, while the weekdays heald at 10000 crashes per day.
 ``` {r}
 #Intro:
 #Result:
