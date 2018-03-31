@@ -7,11 +7,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##Project 1
+#Project 1
 
-##Introduction: This project studies common patterns regardiing crashes in Montgomery County regarding weather conditions, car sizes, and damage to the humans and vehicles involved.
+##Introduction: 
 
-##Data Cleaning: For this data, the causes of the empty rows was not always clear, however it was clear that they could not be simply removed. Instead, they were integrated into pre-existing categories based on what was the most similar. In most cases, this meant replacing NA value with "UNKNOWN".The columns in which this could not be done due to either the collumn not having an "UNKNOWN" category, or the "UNKNOWN" category having additional meaning were not used. 
+This project studies common patterns regardiing crashes in Montgomery County regarding weather conditions, car sizes, and damage to the humans and vehicles involved.
+
+###Data Cleaning: 
+
+For this data, the causes of the empty rows was not always clear, however it was clear that they could not be simply removed. Instead, they were integrated into pre-existing categories based on what was the most similar. In most cases, this meant replacing NA value with "UNKNOWN".The columns in which this could not be done due to either the collumn not having an "UNKNOWN" category, or the "UNKNOWN" category having additional meaning were not used. 
 
 ```{r}
 dat = read.csv("https://raw.githubusercontent.com/IsraelAndrade22/MontgomeryCountyCrashData/master/Crash_Reporting_-_Drivers_Data.csv")
@@ -36,22 +40,28 @@ dat$Weather = factor(dat$Weather)
 dat$Collision.Type = factor(dat$Collision.Type)
 ```
 
-##Data: The data comes from the datMontgomery website. The dataset consist of information about drivers who have been involved in traffic collisions. The data is obtained via the Automated Crash Reporting System and updated weekly. 
+##Data: 
 
-##Initial data exploration: Each row of the data is a information about a driver and details about the collisions they were involved in. The number of rows in this data set consist 65841 and 32 columns. The majority of the data is of type string with a few exceptions being crash time, latitude, longitude, and location all being numeric. In addition, most attributes/columns have factors of 3 or greater besides Latitude and Longitude.
+The data comes from the datMontgomery website. The dataset consist of information about drivers who have been involved in traffic collisions. The data is obtained via the Automated Crash Reporting System and updated weekly. 
+
+##Initial data exploration: 
+
+Each row of the data is a information about a driver and details about the collisions they were involved in. The number of rows in this data set consist 65841 and 32 columns. The majority of the data is of type string with a few exceptions being crash time, latitude, longitude, and location all being numeric. In addition, most attributes/columns have factors of 3 or greater besides Latitude and Longitude.
 ``` {r}
 names(dat)
 ```
 
-##Data exploration and visualization: the following graph below have and introduction and result within the R code snippet explaining the reason for the graph and result.
+###Data exploration and visualization: 
 
-###Plot the frequency of the weather conditions of vechicle crashes
+the following graph below have and introduction and result within the R code snippet explaining the reason for the graph and result.
+
+##Frequency of the weather conditions of vechicle crashes
+###Description: 
+In this graph we wanted to view the number of crashes based on the weather condition when the crash happened
+
+###Results: 
+The weather conditions involved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surprising as we did not expect as many crashes to occur when the weather condition was clear, but it's understandable as the majority of the time the weather conditions are clear. 
 ```{r}
-# Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happened
-
-# Results: The weather conditions involved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surprising as we did not expect as many crashes to occur when the weather condition was clear, but it's understandable as the majority of the time the weather conditions are clear. 
-
- 
 par(mar=c(2,10,2,2))
 
 datWeather = dat$Weather
@@ -65,14 +75,13 @@ newDat = datWeather[datWeather == "RAINING" | datWeather == "CLOUDY" | datWeathe
 barplot(head(sort(table(datWeather), decreasing = T), 4), horiz=T, las=1, col="firebrick")
 ```
 
-###Plot the Injurey severity based on alcohol abuse
+##Injury severity based on alcohol abuse
+###Description: 
+For the graph below we wanted to obtain information about substance such as alcohol and illegal drugs being present when a driver is involved in a crash. We used two attributes (Driver.Substance.Abuse and Injury.Severity) to plot the different levels of crash injury based on substance being present. 
+
+###Results: 
+Individuals with a substance being present were involved in more vehicle collisions than those without any thing in their systems. In addition, fatal injuries were present when the driver was abusing a substance (alcohol or illegal drugs)
 ```{r}
-
-# Intro: For the graph below we wanted to obtain information about substance such as alcohol and illegal drugs being present when a driver is involved in a crash. We used two attributes (Driver.Substance.Abuse and Injury.Severity) to plot the different levels of crash injury based on substance being present. 
-
-# Results: Individuals with a substance being present were involved in more vehicle collisions than those without any thing in their systems. In addition, fatal injuries were present when the driver was abusing a substance (alcohol or illegal drugs)
-
-
 par(mfrow=c(2,1), mar = c(4,14,2,1), cex = .75)
 substancePresent = dat[dat$Driver.Substance.Abuse == "ALCOHOL PRESENT" | dat$Driver.Substance.Abuse == "ILLEGAL DRUG PRESENT", ]
 substanceNotPresent = dat[dat$Driver.Substance.Abuse != "ALCOHOL PRESENT" & dat$Driver.Substance.Abuse == "ILLEGAL DRUG PRESENT", ]
@@ -84,14 +93,18 @@ barplot(c(presentAbuse["FATAL INJURY"], presentAbuse["POSSIBLE INJURY"], present
     xlab = "Amounts", horiz = T, las=2)
 barplot(c(noPresentAbuse["FATAL INJURY"], noPresentAbuse["POSSIBLE INJURY"], noPresentAbuse["SUSPECTED SERIOUS INJURY"]), col="firebrick", main = "Injury Severity on Substance Not Present",
     xlab = "Amounts", horiz = T, las=2)
+
 ```
 
-###Barplot of vehicles that have been destroyed, disabled, or still functional depending of the vehicle body type
+##Barplot of vehicles that have been destroyed, disabled, or still functional depending of the vehicle body type
+###Description: 
+For the graph below we wanted to obtain the frequencies for the damage extent on vehicles based on the body type.
+
+###Results:  
+The bar graph illustrates that SUVs and passenger cars involved in collisions had been mostly disabled and a few destroyed. However, pick up trucks seemed to withstand most collisions resulting in the vehicle being mostly functional.
 ``` {r}
 par(mfrow=c(1,3))
 par(mar=c(10,4,2,2))
-#Intro: For the graph below we wanted to obtain the frequencies for the damage extent on vehicles based on the body type.
-#Result:  The bar graph illustrates that SUVs and passenger cars involved in collisions had been mostly disabled and a few destroyed. However, pick up trucks seemed to withstand most collisions resulting in the vehicle being mostly functional.
 
 pickupTruck = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "PICKUP TRUCK"])
 sportsVehicles = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "(SPORT) UTILITY VEHICLE"])
@@ -100,15 +113,17 @@ passengerCar = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "PASSENG
 barplot(c(sportsVehicles["DESTROYED"], sportsVehicles["DISABLING"], sportsVehicles["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on sports cars", las=2)
 barplot(c(pickupTruck["DESTROYED"], pickupTruck["DISABLING"], pickupTruck["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on pick up trucks", las=2)
 barplot(c(passengerCar["DESTROYED"], passengerCar["DISABLING"], passengerCar["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on passenger cars", las=2)
+
 ```
 
-###Plot of the vehicle damage extend average based on the vechicle body type
+##Vehicle damage extend average based on the vechicle body type
+###Description: 
+For this section we wanted to obtain the average vehicle damage extent based on the vehicle body type. The attributes that were used for this observation was (Vehicle.Body.Type and Vehicle.Damage.Extent)
+
+###Results:
+The results illustrate that pickup trucks were less prone to be destroyed or disabled compared to SUVs and passenger cars. In addition, passenger cars had the worst average performance for all three categories.
 ``` {r}
 par(mfrow=c(1,3), mar = c(10,4,2,2))
-
-#Intro: For this section we wanted to obtain the average vehicle damage extent based on the vehicle body type. The attributes that were used for this observation was (Vehicle.Body.Type and Vehicle.Damage.Extent)
-
-#Result:The results illustrate that pickup trucks were less prone to be destroyed or disabled compared to SUVs and passenger cars. In addition, passenger cars had the worst average performance for all three categories.
 
 pickupTruck = dat[dat$Vehicle.Body.Type == "PICKUP TRUCK",]
 pickupTruckDestroyedAvg = mean(pickupTruck$Vehicle.Damage.Extent == "DESTROYED")
@@ -142,62 +157,77 @@ barplot(avgDisabling, col="yellow", main = "Vehicle Disabled Average",
     las=2)
 barplot(avgFunctional, col="green", main = "Vehicle Functional Average",
     las=2)
+
 ```
 
-###Most common vehicle collisions
-```{r}
-#Intro: This graph illustrates the most collision with the montgomery county. 
-#Result:  The most common collision in the dataset were same direction rear ends, followed by straight movement angle, other, and single vehicle
 
+
+##Most common vehicle collisions
+###Description: 
+This graph illustrates the most collision with the montgomery county. 
+
+###Results:  
+The most common collision in the dataset were same direction rear ends, followed by straight movement angle, other, and single vehicle
+```{r}
 par(mar=c(14,5,1,1), cex = .75)
-newDat = dat[dat$Collision.Type != "",]
+newDat = dat[dat$Collision.Type != "" && dat$Collision.Type != "UNKNOWN",]
 topCollisons = head(sort(table(newDat$Collision.Type), decreasing = T), 4)
 barplot(topCollisons, col = "firebrick",las=2)
 ```
 
-###Plot the most common crashed on certain roads
+##Most common crashed on certain roads
+###Description: 
+The graph below answer the question of what type of crashes are common on New Hampshire and Georgia road. The New Hampshire and Georgia Road were involved with the most collision in the Montgomery County. The attributes that were graphed consisted of Road.Name and Collision.Type. 
+
+###Results: 
+New Hampshire and Georgia had the same number of collision based on the type with a few exception. 
 ``` {r}
-
-#Intro: The graph below answer the question of what type of crashes are common on New Hampshire and Georgia road. The New Hampshire and Georgia Road were involved with the most collision in the Montgomery County. The attributes that were graphed consisted of Road.Name and Collision.Type. 
-#Result:  New Hampshire and Georgia had the same number of collision based on the type with a few exception. 
-
 georgiaAve = dat[dat$Road.Name == "GEORGIA AVE",]
 newHampshireAve = dat[dat$Road.Name == "NEW HAMPSHIRE AVE",]
 frederickRoad = dat[dat$Road.Name == "FREDERICK RD",]
-stash = data.frame(table(georgiaAve$Collision.Type),table(newHampshireAve$Collision.Type))[c(1,2,4)]
+stash = data.frame(table(georgiaAve$Collision.Type),table(newHampshireAve$Collision.Type),table(frederickRoad$Collision.Type))[c(1,2,4,6)]
 names(stash) = as.character(stash[1])
-colnames(stash) = c("names","Georgia", "NewHampsire")
+colnames(stash) = c("names","Georgia", "NewHampsire", "Fredrick")
 par(mar = c(15,5,2,2), las=2, cex = 0.7)
 plot(stash$NewHampsire ~ stash$names, xlab = "", ylab = "Number of Crashes", type = "p")
 lines(stash$Georgia, type = "p", col = "RED")
-legend( "topleft", legend = c("New Hampshire", "Georgia" ), col = c("black", "red"), pch = 1)
+lines(stash$Fredrick, type = "p", col = "blue")
+legend( "topleft", legend = c("New Hampshire", "Georgia", "Fredrick" ), col = c("black", "red", "blue"), pch = 1)
+
 ```
 
-###Map of the different collision within Montgomery County
+##Map of the different collision within Montgomery County
+###Descrition: 
+For this graph we wanted to illustrate a map with across the Montgomery County with dots on the location of each cross
+
+###Results: 
+The graph displays roads drawed by points across the graph illustrating the common areas of crashes
 ``` {r}
-#Intro: For this graph we wanted to illustrate a map with across the Montgomery County with dots on the location of each cross
-#Result: The graph displays roads drawed by points across the graph illustrating the common areas of crashes
 plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pch = ".", 
      xlab = "Latitude", ylab = "Longitude")
 ```
 
-###Map of off road collisions within Montgomery County
-``` {r}
-#Intro: For this graph we wanted to illustrate the collisons that have occured off the road to help us determine if these type of collision are common around this county
-#Result: The graph displays many of the off road collisions occurring around the same areas. Most of these collisions also occurred near local roads
+##Map of off road collisions within Montgomery County
+###Description: 
+For this graph we wanted to illustrate the collisons that have occured off the road to help us determine if these type of collision are common around this county
 
+###Results: 
+The graph displays many of the off road collisions occurring around the same areas. Most of these collisions also occurred near local roads
+``` {r}
 plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pch = ".", xlab = "Latitude",
      ylab="Longitude")
 data=dat[dat$Off.Road.Description !="",]
-points(data$Latitude, data$Longitude, col="red", pch=".")
+points(data$Latitude, data$Longitude, col="red", pch=".",xlab = "Latitude", ylab = "Longitude")
 
 ```
 
-###Frequency of crashes sorted by day of the week
-``` {r}
-#Intro: For this graph we wanted a barplot to illustrate the frequency of crashes based on the day of the week.
-#Result: Tuesday was the day when most crashes occur followed by Thursday and Wednesday being the next frequent day for crashes. The weekends had the fewest number of collison compared to weekdays.
+##Frequency of crashes sorted by day of the week
+###Description: 
+For this graph we wanted a barplot to illustrate the frequency of crashes based on the day of the week.
 
+###Results: 
+Tuesday was the day when most crashes occur followed by Thursday and Wednesday being the next frequent day for crashes. The weekends had the fewest number of collison compared to weekdays.
+``` {r}
 dat$dtime = strptime(as.character(dat$Crash.Date.Time),
                      "%m/%d/%Y %I:%M:%S %p",
                      tz="America/New_York")
@@ -207,11 +237,13 @@ names(day_of_the_week) = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday
 barplot(sort(day_of_the_week), col = "firebrick",las=2)
 ```
 
-###Frequency of time of day when crashes occur
-``` {r}
-#Intro: For the following graph we wanted to find out when most collision occur based on the time of day.
-#Result: Most collision seem to occur during morning commutes to work and after work around 3 PM - 6 PM.
+##Time of day when crashes occur
+###Description: 
+For the following graph we wanted to find out when most collision occur based on the time of day.
 
+###Results: 
+Most collision seem to occur during morning commutes to work and after work around 3 PM - 6 PM.
+``` {r}
 datTimeofDay = table(dat$dtime$hour)
 names(datTimeofDay) = c("12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM",
                         "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM",
@@ -220,6 +252,6 @@ names(datTimeofDay) = c("12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM",
 barplot(datTimeofDay, las=2, col = "firebrick")
 ```
 
-##Conclusion: The statistic that caught my eye the most was the weather - most crashes happened when skys are clear. It would be interesting to take this information further and compare it to the number of cars on the road and the weather in Montgomery County, however this is beyond the scope. The frequency of rear ending on NewHampshire Ave was also surprising, especially when compared to other crashes on the road. Rearending someone does not require fancy manuvers, changing lanes, or merging onto the freeway, which brings a question of why it happens so often. And the clear skys also contradict conventional wisdom. This brings up some questions which the data can't answer, largely because it would need to be averaged against other data; for example how many cars were on the road. It can, however, answer the question of if it is okay to drink and drive. With around 9 times as many crashes from drunk drivers than sober ones, that answer remains a firm no.
-``` {r}
-```
+###Conclusion: 
+
+The statistic that caught my eye the most was the weather - most crashes happened when skys are clear. It would be interesting to take this information further and compare it to the number of cars on the road and the weather in Montgomery County, however this is beyond the scope. The frequency of rear ending on NewHampshire Ave was also surprising, especially when compared to other crashes on the road. Rearending someone does not require fancy manuvers, changing lanes, or merging onto the freeway, which brings a question of why it happens so often. And the fact that there are more accidents during clear skys also contradict conventional wisdom. It would be interesting to see this data averaged across how many cars are on the road at those times, however that data is not whtin the scope. Looking at the scales that can be provided, however, allows us to learn much information; for example the fact that there are nine times as many accidents involving people who have abused drugs, and that rearending is the most common type of crash. This information could be used to make cars safer; for example using sonar technology to alert a driver that they are too close to another car, or to remind people exactly why not to drive while under the influence.
