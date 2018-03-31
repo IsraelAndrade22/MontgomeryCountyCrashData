@@ -77,6 +77,7 @@ for(x in 1:length(datWeather)) {
 
 newDat = datWeather[datWeather == "RAINING" | datWeather == "CLOUDY" | datWeather == "CLEAR"  | datWeather == "OTHER"]
 barplot(head(sort(table(datWeather), decreasing = T), 4), horiz=T, las=1, col="firebrick")
+
 ```
 
 ##Injury severity based on alcohol abuse
