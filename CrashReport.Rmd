@@ -53,7 +53,7 @@ names(dat)
 
 ###Data exploration and visualization: 
 
-the following graph below have and introduction and result within the R code snippet explaining the reason for the graph and result.
+The graphs below have a description and result explaining the graph and also its findings
 
 ##Frequency of the weather conditions of vechicle crashes
 ###Description: 
