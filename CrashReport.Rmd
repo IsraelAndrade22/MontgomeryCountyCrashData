@@ -53,16 +53,16 @@ names(dat)
 
 ###Data exploration and visualization: 
 
-the following graph below have and introduction and result within the R code snippet explaining the reason for the graph and result.
+the following graphs below have and introduction and result within the R code snippet explaining the reason for the graph and result.
 
 ##Frequency of the weather conditions of vechicle crashes
 ###Description: 
 In this graph we wanted to view the number of crashes based on the weather condition when the crash happened
 
 ###Results: 
-The weather conditions involved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surprising as we did not expect as many crashes to occur when the weather condition was clear, but it's understandable as the majority of the time the weather conditions are clear. 
+The weather conditions involved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surprising as we did not expect as many crashes to occur when the weather condition was clear, but it's understandable as the majority of the time the weather conditions are clear. It may also be caused by drivers being more careful during times where there are more weather hazards, and thus avoiding more risky behavior.
 ```{r}
-# Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happened
+# Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happened,
 
 # Results: The weather conditions involved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surprising as we did not expect as many crashed when the weather condition was clear. 
  
