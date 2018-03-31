@@ -25,10 +25,10 @@ dat$Weather[dat$Weather == "N/A"] = "UNKNOWN"
 dat$Collision.Type[dat$Collision.Type == "N/A"] = "UNKNOWN"
 
 dat$Driver.Substance.Abuse = factor(dat$Driver.Substance.Abuse)
-dat$Vehicle.Movement = facor(dat$Vehicle.Movement)
-dat$Vehicle.Body.Type = facor(dat$Vehicle.Body.Type)
-dat$Vehicle.Damage.Extent = facor(dat$Vehicle.Damage.Extent)
-dat$Light = facor(dat$Light)
+dat$Vehicle.Movement = factor(dat$Vehicle.Movement)
+dat$Vehicle.Body.Type = factor(dat$Vehicle.Body.Type)
+dat$Vehicle.Damage.Extent = factor(dat$Vehicle.Damage.Extent)
+dat$Light = factor(dat$Light)
 dat$Surface.Condition = factor(dat$Surface.Condition)
 dat$Weather = factor(dat$Weather)
 dat$Collision.Type = factor(dat$Collision.Type)
@@ -61,7 +61,7 @@ barplot(table(dat$Weather), horiz=T, las=1, col="firebrick")
 
 # Results: More invididuals with a substance being present were involved in more vehicle crashed than those without any thing in their their systems. In addition, fatal injuries were present when the driver was abusing a substance 
 
-par(mfrow=c(2,1))
+par(mfrow=c(2,1), mar = c(4,14,2,1), cex = .75)
 substancePresent = dat[dat$Driver.Substance.Abuse == "ALCOHOL PRESENT" | dat$Driver.Substance.Abuse == "ILLEGAL DRUG PRESENT", ]
 substanceNotPresent = dat[dat$Driver.Substance.Abuse != "ALCOHOL PRESENT" & dat$Driver.Substance.Abuse == "ILLEGAL DRUG PRESENT", ]
 
@@ -69,33 +69,30 @@ presentAbuse = table(substancePresent$Injury.Severity)
 noPresentAbuse = table(substanceNotPresent$Injury.Severity)
 
 barplot(c(presentAbuse["FATAL INJURY"], presentAbuse["POSSIBLE INJURY"], presentAbuse["SUSPECTED SERIOUS INJURY"]), col="firebrick", main = "Injury Severity on Substance Present",
-    xlab = "Amounts", horiz = T)
+    xlab = "Amounts", horiz = T, las=2)
 barplot(c(noPresentAbuse["FATAL INJURY"], noPresentAbuse["POSSIBLE INJURY"], noPresentAbuse["SUSPECTED SERIOUS INJURY"]), col="firebrick", main = "Injury Severity on Substance Not Present",
-    xlab = "Amounts", horiz = T)
+    xlab = "Amounts", horiz = T, las=2)
 ```
 
 
 ##Intro: explain what you will do in a sentence or two
 ``` {r}
 par(mfrow=c(1,3))
-par(mar=c(2,10,2,2))
+par(mar=c(10,4,2,2))
 #Intro:
 #Result:
 pickupTruck = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "PICKUP TRUCK"])
 sportsVehicles = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "(SPORT) UTILITY VEHICLE"])
 passengerCar = table(dat$Vehicle.Damage.Extent[dat$Vehicle.Body.Type == "PASSENGER CAR"])
 
-barplot(c(sportsVehicles["DESTROYED"], sportsVehicles["DISABLING"], sportsVehicles["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on sports cars",
-    xlab = "Amounts")
-barplot(c(pickupTruck["DESTROYED"], pickupTruck["DISABLING"], pickupTruck["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on pick up trucks",
-    xlab = "Amounts")
-barplot(c(passengerCar["DESTROYED"], passengerCar["DISABLING"], passengerCar["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on passenger cars",
-    xlab = "Amounts")
+barplot(c(sportsVehicles["DESTROYED"], sportsVehicles["DISABLING"], sportsVehicles["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on sports cars", las=2)
+barplot(c(pickupTruck["DESTROYED"], pickupTruck["DISABLING"], pickupTruck["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on pick up trucks", las=2)
+barplot(c(passengerCar["DESTROYED"], passengerCar["DISABLING"], passengerCar["FUNCTIONAL"]), col="firebrick", main = "Vehicle damage on passenger cars", las=2)
 ```
 
 ###Plot of the vehicle damage extend average based on the vechicle body type
 ``` {r}
-par(mfrow=c(1,3))
+par(mfrow=c(1,3), mar = c(10,4,2,2))
 
 #Intro: For this section we wanted to obtain the average vehicle damage extent based on the vehicle body type. The attributes that were used for this observation was (Vehicle.Body.Type and Vehicle.Damage.Extent)
 
@@ -128,11 +125,11 @@ names(avgFunctional) = c("pickup truck", "sport vehicle", "passenger vehicle")
 
 
 barplot(avgDestroyed, col="firebrick", main = "Vehicle Destroyed Average",
-    xlab = "Average")
+    las=2)
 barplot(avgDisabling, col="yellow", main = "Vehicle Disabled Average",
-    xlab = "Average")
+    las=2)
 barplot(avgFunctional, col="green", main = "Vehicle Functional Average",
-    xlab = "Average")
+    las=2)
 ```
 
 
@@ -140,7 +137,7 @@ barplot(avgFunctional, col="green", main = "Vehicle Functional Average",
 ###Most common vehicle collisions
 ```{r}
 #c(bottom, left, top, right)
-par(mar=c(15,5,1,1))
+par(mar=c(14,5,1,1), cex = .75)
 newDat = dat[dat$Collision.Type != "",]
 newDat = na.omit(newDat)
 topCollisons = head(sort(table(newDat$Collision.Type), decreasing = T), 4)
@@ -207,5 +204,6 @@ time = dat$dtime$hour
 
 ```
 #Conclusions.  One paragraph about what you learned, issues you faced, etc.
+The statistic that caught my eye the most was the weather - most crashes happened when skys are clear. It would be interesting to take this information further and compare it to the number of cars on the road and the weather in Montgomery County, however this is beyond the scope. The frequency of rear ending on NewHampshire Ave was also surprising, especially when compared to other crashes on the road. Rearending someone does not require fancy manuvers, changing lanes, or merging onto the freeway, which brings a question of why it happens so often. And the clear skys also contradict conventional wisdom. This brings up some questions which the data can't answer, largely because it would need to be averaged against other data; for example how many cars were on the road. It can, however, answer the question of if it is okay to drink and drive. With around 9 times as many crashes from drunk drivers than sober ones, that answer remains a firm no.
 ``` {r}
 ```
