@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ###Plot the frequency of the weather conditions of vechicle crashes
 ```{r}
 dat = read.csv("https://raw.githubusercontent.com/IsraelAndrade22/MontgomeryCountyCrashData/master/Crash_Reporting_-_Drivers_Data.csv")
+
 # Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happend
 
 # Results: The weather conditions inlvolved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surpising as we did not expect as meany crashed when the weather condition was clear. 
@@ -172,13 +173,12 @@ barplot(sort(day_of_the_week), col = "firebrick",las=2)
 
 ##Frequency of time of day when crashes occur
 ``` {r}
-datTimeofDay = c(0, 0, 0)
-names(datTimeofDay) = c("Night (8PM - 4AM", "Morning (5AM - 11AM", "Afternoon (12PM - 7PM")
-time = dat$dtime$hour
-#for(x in 1:length(time)) {
-#  if(time[x] == "")
-#}
+datTimeofDay = table(dat$dtime$hour)
+names(datTimeofDay) = c("12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM",
+                        "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM",
+                        "10 PM", "11 PM")
 
+barplot(datTimeofDay, las=2)
 ```
 #Conclusions.  One paragraph about what you learned, issues you faced, etc.
 ``` {r}
