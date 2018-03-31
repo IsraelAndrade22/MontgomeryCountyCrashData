@@ -51,7 +51,7 @@ Each row of the data is a information about a driver and details about the colli
 names(dat)
 ```
 
-###Data exploration and visualization: 
+##Data exploration and visualization: 
 
 The graphs below have a description and result explaining the graph and also its findings
 
