@@ -56,6 +56,11 @@ names(dat)
 the following graph below have and introduction and result within the R code snippet explaining the reason for the graph and result.
 
 ##Frequency of the weather conditions of vechicle crashes
+###Description: 
+In this graph we wanted to view the number of crashes based on the weather condition when the crash happened
+
+###Results: 
+The weather conditions involved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surprising as we did not expect as many crashes to occur when the weather condition was clear, but it's understandable as the majority of the time the weather conditions are clear. 
 ```{r}
 # Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happened
 
@@ -77,6 +82,11 @@ barplot(table(dat$Weather), horiz=T, las=1, col="firebrick")
 ```
 
 ##Injury severity based on alcohol abuse
+###Description: 
+For the graph below we wanted to obtain information about substance such as alcohol and illegal drugs being present when a driver is involved in a crash. We used two attributes (Driver.Substance.Abuse and Injury.Severity) to plot the different levels of crash injury based on substance being present. 
+
+###Results: 
+Individuals with a substance being present were involved in more vehicle collisions than those without any thing in their systems. In addition, fatal injuries were present when the driver was abusing a substance (alcohol or illegal drugs)
 ```{r}
 
 # Intro: For the graph below we wanted to obtain information about substance such as alcholo and illegal drugs being present when involved in a crash. We used two attributes (Driver.Substance.Abuse and Injury.Severity) to plot the different levels of crash injury based on substance being present. 
@@ -98,6 +108,11 @@ barplot(c(noPresentAbuse["FATAL INJURY"], noPresentAbuse["POSSIBLE INJURY"], noP
 ```
 
 ##Barplot of vehicles that have been destroyed, disabled, or still functional depending of the vehicle body type
+###Description: 
+For the graph below we wanted to obtain the frequencies for the damage extent on vehicles based on the body type.
+
+###Results:  
+The bar graph illustrates that SUVs and passenger cars involved in collisions had been mostly disabled and a few destroyed. However, pick up trucks seemed to withstand most collisions resulting in the vehicle being mostly functional.
 ``` {r}
 par(mfrow=c(1,3))
 par(mar=c(10,4,2,2))
@@ -114,6 +129,11 @@ barplot(c(passengerCar["DESTROYED"], passengerCar["DISABLING"], passengerCar["FU
 ```
 
 ##Vehicle damage extend average based on the vechicle body type
+###Description: 
+For this section we wanted to obtain the average vehicle damage extent based on the vehicle body type. The attributes that were used for this observation was (Vehicle.Body.Type and Vehicle.Damage.Extent)
+
+###Results:
+The results illustrate that pickup trucks were less prone to be destroyed or disabled compared to SUVs and passenger cars. In addition, passenger cars had the worst average performance for all three categories.
 ``` {r}
 par(mfrow=c(1,3), mar = c(10,4,2,2))
 
@@ -159,6 +179,11 @@ barplot(avgFunctional, col="green", main = "Vehicle Functional Average",
 
 
 ##Most common vehicle collisions
+###Description: 
+This graph illustrates the most collision with the montgomery county. 
+
+###Results:  
+The most common collision in the dataset were same direction rear ends, followed by straight movement angle, other, and single vehicle
 ```{r}
 #Intro:
 #Result:
@@ -169,6 +194,11 @@ barplot(topCollisons, col = "firebrick",las=2)
 ```
 
 ##Most common crashed on certain roads
+###Description: 
+The graph below answer the question of what type of crashes are common on New Hampshire and Georgia road. The New Hampshire and Georgia Road were involved with the most collision in the Montgomery County. The attributes that were graphed consisted of Road.Name and Collision.Type. 
+
+###Results: 
+New Hampshire and Georgia had the same number of collision based on the type with a few exception. 
 ``` {r}
 #are some kinds of crashes more common on certain kinds of roads
 #Road.Name, Collision.Type, 
@@ -192,6 +222,11 @@ legend( "topleft", legend = c("New Hampshire", "Georgia", "Fredrick" ), col = c(
 ```
 
 ##Map of the different collision within Montgomery County
+###Descrition: 
+For this graph we wanted to illustrate a map with across the Montgomery County with dots on the location of each cross
+
+###Results: 
+The graph displays roads drawed by points across the graph illustrating the common areas of crashes
 This collision map illistrates the approximate locations of Montgomery County roads. While the map itself is cluttered, the roads themselves can be made out. 
 ``` {r}
 #Intro: For this graph we wanted to illustrate a map with across the Montgomery County with dots on the location of each cross
@@ -201,6 +236,11 @@ plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pc
 ```
 
 ##Map of off road collisions within Montgomery County
+###Description: 
+For this graph we wanted to illustrate the collisons that have occured off the road to help us determine if these type of collision are common around this county
+
+###Results: 
+The graph displays many of the off road collisions occurring around the same areas. Most of these collisions also occurred near local roads
 Here the places where cars were off the road are higlighted. Most crashes that did occur off the roads were still near the road. The data itself explains why this is - the collisions off the road tended to occur in parking lots. This also helps to track where the Montgomery County roads lay, as the road only follows the darker points.
 ``` {r}
 #Intro: For this graph we wanted to illustrate the collisons that have occured off the road to help us determine if these type of collision are common around this county
@@ -213,7 +253,11 @@ points(data$Latitude, data$Longitude, col="red", pch=".",xlab = "Latitude", ylab
 ```
 
 ##Frequency of crashes by day of the week
+###Description: 
+For this graph we wanted a barplot to illustrate the frequency of crashes based on the day of the week.
 
+###Results: 
+Tuesday was the day when most crashes occur followed by Thursday and Wednesday being the next frequent day for crashes. The weekends had the fewest number of collison compared to weekdays.
 Below is a graph showing when people get into the most crashes. The fewest crashes occured on Sunday, with an aproximate 75% drop from the weekdys. Saturday had a 20% drop, while the weekdays heald at 10000 crashes per day.
 ``` {r}
 #Intro:
@@ -226,7 +270,13 @@ day_of_the_week = table(dat$dtime$wday)
 names(day_of_the_week) = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
 barplot(sort(day_of_the_week), col = "firebrick",las=2)
 ```
+
 ##Time of day when crashes occur
+###Description: 
+For the following graph we wanted to find out when most collision occur based on the time of day.
+
+###Results: 
+Most collision seem to occur during morning commutes to work and after work around 3 PM - 6 PM.
 ``` {r}
 #Intro:
 #Result:
