@@ -8,7 +8,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ##Project 1
-This project studies common patterns regardiing crashes in Montgomery County regarding weather conditions, car sizes, and damage to the humans and vehicles involved.
+
+#Introduction: This project studies common patterns regardiing crashes in Montgomery County regarding weather conditions, car sizes, and damage to the humans and vehicles involved.
 
 
 ```{r}
@@ -33,7 +34,8 @@ dat$Surface.Condition = factor(dat$Surface.Condition)
 dat$Weather = factor(dat$Weather)
 dat$Collision.Type = factor(dat$Collision.Type)
 ```
-For this data, the causes of the empty rows was not always clear, however it was clear that they could not be simply removed. Instead, they were integrated into pre-existing categories based on what was the most similar. In most cases, this meant replacing NA value with "UNKNOWN".The columns in which this could not be done due to either the collumn not having an "UNKNOWN" category, or the "UNKNOWN" category having additional meaning were not used. 
+#Data Cleaning: For this data, the causes of the empty rows was not always clear, however it was clear that they could not be simply removed. Instead, they were integrated into pre-existing categories based on what was the most similar. In most cases, this meant replacing NA value with "UNKNOWN".The columns in which this could not be done due to either the collumn not having an "UNKNOWN" category, or the "UNKNOWN" category having additional meaning were not used. 
+
 ###Plot the frequency of the weather conditions of vechicle crashes
 ```{r}
 # Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happend
@@ -199,15 +201,13 @@ barplot(sort(day_of_the_week), col = "firebrick",las=2)
 
 ##Frequency of time of day when crashes occur
 ``` {r}
-datTimeofDay = c(0, 0, 0)
-names(datTimeofDay) = c("Night (8PM - 4AM", "Morning (5AM - 11AM", "Afternoon (12PM - 7PM")
-time = dat$dtime$hour
-#for(x in 1:length(time)) {
-#  if(time[x] == "")
-#}
+datTimeofDay = table(dat$dtime$hour)
+names(datTimeofDay) = c("12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM",
+                        "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM",
+                        "10 PM", "11 PM")
 
+barplot(datTimeofDay, las=2)
 ```
-#Conclusions.  One paragraph about what you learned, issues you faced, etc.
-The statistic that caught my eye the most was the weather - most crashes happened when skys are clear. It would be interesting to take this information further and compare it to the number of cars on the road and the weather in Montgomery County, however this is beyond the scope. The frequency of rear ending on NewHampshire Ave was also surprising, especially when compared to other crashes on the road. Rearending someone does not require fancy manuvers, changing lanes, or merging onto the freeway, which brings a question of why it happens so often. And the clear skys also contradict conventional wisdom. This brings up some questions which the data can't answer, largely because it would need to be averaged against other data; for example how many cars were on the road. It can, however, answer the question of if it is okay to drink and drive. With around 9 times as many crashes from drunk drivers than sober ones, that answer remains a firm no.
+#Conclusion: The statistic that caught my eye the most was the weather - most crashes happened when skys are clear. It would be interesting to take this information further and compare it to the number of cars on the road and the weather in Montgomery County, however this is beyond the scope. The frequency of rear ending on NewHampshire Ave was also surprising, especially when compared to other crashes on the road. Rearending someone does not require fancy manuvers, changing lanes, or merging onto the freeway, which brings a question of why it happens so often. And the clear skys also contradict conventional wisdom. This brings up some questions which the data can't answer, largely because it would need to be averaged against other data; for example how many cars were on the road. It can, however, answer the question of if it is okay to drink and drive. With around 9 times as many crashes from drunk drivers than sober ones, that answer remains a firm no.
 ``` {r}
 ```
