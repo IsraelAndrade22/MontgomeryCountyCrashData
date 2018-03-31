@@ -9,8 +9,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ##Project 1
 
-#Introduction: This project studies common patterns regardiing crashes in Montgomery County regarding weather conditions, car sizes, and damage to the humans and vehicles involved.
+##Introduction: This project studies common patterns regardiing crashes in Montgomery County regarding weather conditions, car sizes, and damage to the humans and vehicles involved.
 
+##Data Cleaning: For this data, the causes of the empty rows was not always clear, however it was clear that they could not be simply removed. Instead, they were integrated into pre-existing categories based on what was the most similar. In most cases, this meant replacing NA value with "UNKNOWN".The columns in which this could not be done due to either the collumn not having an "UNKNOWN" category, or the "UNKNOWN" category having additional meaning were not used. 
 
 ```{r}
 dat = read.csv("https://raw.githubusercontent.com/IsraelAndrade22/MontgomeryCountyCrashData/master/Crash_Reporting_-_Drivers_Data.csv")
@@ -34,13 +35,22 @@ dat$Surface.Condition = factor(dat$Surface.Condition)
 dat$Weather = factor(dat$Weather)
 dat$Collision.Type = factor(dat$Collision.Type)
 ```
-#Data Cleaning: For this data, the causes of the empty rows was not always clear, however it was clear that they could not be simply removed. Instead, they were integrated into pre-existing categories based on what was the most similar. In most cases, this meant replacing NA value with "UNKNOWN".The columns in which this could not be done due to either the collumn not having an "UNKNOWN" category, or the "UNKNOWN" category having additional meaning were not used. 
+
+##Data: The data comes from the datMontgomery website. The dataset consist of information about drivers who have been involved in traffic collisions. The data is obtained via the Automated Crash Reporting System and updated weekly. 
+
+##Initial data exploration: Each row of the data is a information about a driver and details about the collisions they were involved in. The number of rows in this data set consist 65841 and 32 columns. The majority of the data is of type string with a few exceptions being crash time, latitude, longitude, and location all being numeric. In addition, most attributes/columns have factors of 3 or greater besides Latitude and Longitude.
+``` {r}
+names(dat)
+```
+
+##Data exploration and visualization: the following graph below have and introduction and result within the R code snippet explaining the reason for the graph and result.
 
 ###Plot the frequency of the weather conditions of vechicle crashes
 ```{r}
-# Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happend
+# Intro: In this graph we wanted to view the number of crashes based on the weather condition when the crash happened
 
-# Results: The weather conditions inlvolved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surpising as we did not expect as meany crashed when the weather condition was clear. 
+# Results: The weather conditions involved with the most crashed ranged from Clear, Raining, Cloudy, followed by other. The result was a bit surprising as we did not expect as many crashed when the weather condition was clear. 
+ 
 par(mar=c(2,10,2,2))
 
 datWeather = dat$Weather
@@ -76,8 +86,7 @@ barplot(c(noPresentAbuse["FATAL INJURY"], noPresentAbuse["POSSIBLE INJURY"], noP
     xlab = "Amounts", horiz = T, las=2)
 ```
 
-
-##Intro: explain what you will do in a sentence or two
+###Barplot of vehicles that have been destroyed, disabled, or still functional depending of the vehicle body type
 ``` {r}
 par(mfrow=c(1,3))
 par(mar=c(10,4,2,2))
@@ -138,10 +147,10 @@ barplot(avgFunctional, col="green", main = "Vehicle Functional Average",
 
 ###Most common vehicle collisions
 ```{r}
-#c(bottom, left, top, right)
+#Intro:
+#Result:
 par(mar=c(14,5,1,1), cex = .75)
 newDat = dat[dat$Collision.Type != "",]
-newDat = na.omit(newDat)
 topCollisons = head(sort(table(newDat$Collision.Type), decreasing = T), 4)
 barplot(topCollisons, col = "firebrick",las=2)
 ```
@@ -151,7 +160,8 @@ barplot(topCollisons, col = "firebrick",las=2)
 #are some kinds of crashes more common on certain kinds of roads
 #Road.Name, Collision.Type, 
 #Top three roads with number of crashes GEORGIA AVE NEW HAMPSHIRE AVE      FREDERICK RD
-
+#Intro:
+#Result:
 georgiaAve = dat[dat$Road.Name == "GEORGIA AVE",]
 newHampshireAve = dat[dat$Road.Name == "NEW HAMPSHIRE AVE",]
 frederickRoad = dat[dat$Road.Name == "FREDERICK RD",]
@@ -166,7 +176,7 @@ lines(stash$Georgia, type = "p", col = "RED")
 legend( "topleft", legend = c("New Hampshire", "Georgia" ), col = c("black", "red"), pch = 1)
 ```
 
-##Map of the different collision within Montgomery County
+###Map of the different collision within Montgomery County
 ``` {r}
 #Intro: For this graph we wanted to illustrate a map with across the Montgomery County with dots on the location of each cross
 #Result: The graph displays roads drawed by points across the graph illustrating the common areas of crashes
@@ -174,18 +184,21 @@ plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pc
      xlab = "Latitude", ylab = "Longitude")
 ```
 
-##Map of off road collisions within Montgomery County
+###Map of off road collisions within Montgomery County
 ``` {r}
 #Intro: For this graph we wanted to illustrate the collisons that have occured off the road to help us determine if these type of collision are common around this county
 #Result: The graph displays many of the off road collisions occuring around the same areas. Most of these collisions also occured near local roads
-plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pch = ".")
+plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pch = ".", xlab = "Latitude",
+     ylab="Longitude")
 data=dat[dat$Off.Road.Description !="",]
-points(data$Latitude, data$Longitude, col="red", pch=".",
-       xlab = "Latitude", ylab = "Longitude")
+points(data$Latitude, data$Longitude, col="red", pch=".")
 
 ```
-##Frequency of crashes sorted by day of the week
+
+###Frequency of crashes sorted by day of the week
 ``` {r}
+#Intro:
+#Result:
 dat$dtime = strptime(as.character(dat$Crash.Date.Time),
                      "%m/%d/%Y %I:%M:%S %p",
                      tz="America/New_York")
@@ -195,15 +208,18 @@ names(day_of_the_week) = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday
 barplot(sort(day_of_the_week), col = "firebrick",las=2)
 ```
 
-##Frequency of time of day when crashes occur
+###Frequency of time of day when crashes occur
 ``` {r}
+#Intro:
+#Result:
 datTimeofDay = table(dat$dtime$hour)
 names(datTimeofDay) = c("12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM",
                         "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM",
                         "10 PM", "11 PM")
 
-barplot(datTimeofDay, las=2)
+barplot(datTimeofDay, las=2, col = "firebrick")
 ```
-#Conclusion: The statistic that caught my eye the most was the weather - most crashes happened when skys are clear. It would be interesting to take this information further and compare it to the number of cars on the road and the weather in Montgomery County, however this is beyond the scope. The frequency of rear ending on NewHampshire Ave was also surprising, especially when compared to other crashes on the road. Rearending someone does not require fancy manuvers, changing lanes, or merging onto the freeway, which brings a question of why it happens so often. And the clear skys also contradict conventional wisdom. This brings up some questions which the data can't answer, largely because it would need to be averaged against other data; for example how many cars were on the road. It can, however, answer the question of if it is okay to drink and drive. With around 9 times as many crashes from drunk drivers than sober ones, that answer remains a firm no.
+
+##Conclusion: The statistic that caught my eye the most was the weather - most crashes happened when skys are clear. It would be interesting to take this information further and compare it to the number of cars on the road and the weather in Montgomery County, however this is beyond the scope. The frequency of rear ending on NewHampshire Ave was also surprising, especially when compared to other crashes on the road. Rearending someone does not require fancy manuvers, changing lanes, or merging onto the freeway, which brings a question of why it happens so often. And the clear skys also contradict conventional wisdom. This brings up some questions which the data can't answer, largely because it would need to be averaged against other data; for example how many cars were on the road. It can, however, answer the question of if it is okay to drink and drive. With around 9 times as many crashes from drunk drivers than sober ones, that answer remains a firm no.
 ``` {r}
 ```
