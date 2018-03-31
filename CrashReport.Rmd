@@ -150,7 +150,7 @@ barplot(avgFunctional, col="green", main = "Vehicle Functional Average",
 #Intro:
 #Result:
 par(mar=c(14,5,1,1), cex = .75)
-newDat = dat[dat$Collision.Type != "",]
+newDat = dat[dat$Collision.Type != "" && dat$Collision.Type != "UNKNOWN",]
 topCollisons = head(sort(table(newDat$Collision.Type), decreasing = T), 4)
 barplot(topCollisons, col = "firebrick",las=2)
 ```
@@ -167,13 +167,15 @@ newHampshireAve = dat[dat$Road.Name == "NEW HAMPSHIRE AVE",]
 frederickRoad = dat[dat$Road.Name == "FREDERICK RD",]
 #head(sort(table(georgiaAve$Collision.Type), decreasing = T), 3)
 #head(sort(table(newHampshireAve$Collision.Type), decreasing = T), 3)
-stash = data.frame(table(georgiaAve$Collision.Type),table(newHampshireAve$Collision.Type))[c(1,2,4)]
+stash = data.frame(table(georgiaAve$Collision.Type),table(newHampshireAve$Collision.Type),table(frederickRoad$Collision.Type))[c(1,2,4,6)]
 names(stash) = as.character(stash[1])
-colnames(stash) = c("names","Georgia", "NewHampsire")
+colnames(stash) = c("names","Georgia", "NewHampsire", "Fredrick")
 par(mar = c(15,5,2,2), las=2, cex = 0.7)
 plot(stash$NewHampsire ~ stash$names, xlab = "", ylab = "Number of Crashes", type = "p")
 lines(stash$Georgia, type = "p", col = "RED")
-legend( "topleft", legend = c("New Hampshire", "Georgia" ), col = c("black", "red"), pch = 1)
+lines(stash$Fredrick, type = "p", col = "blue")
+legend( "topleft", legend = c("New Hampshire", "Georgia", "Fredrick" ), col = c("black", "red", "blue"), pch = 1)
+
 ```
 
 ###Map of the different collision within Montgomery County
@@ -191,7 +193,7 @@ plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pc
 plot(dat$Latitude, dat$Longitude, xlim = c(38.8, 39.4), ylim = c(-77, -77.4), pch = ".", xlab = "Latitude",
      ylab="Longitude")
 data=dat[dat$Off.Road.Description !="",]
-points(data$Latitude, data$Longitude, col="red", pch=".")
+points(data$Latitude, data$Longitude, col="red", pch=".",xlab = "Latitude", ylab = "Longitude")
 
 ```
 
